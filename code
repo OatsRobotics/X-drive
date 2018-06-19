@@ -1,0 +1,95 @@
+#pragma config(UART_Usage, UART2, uartNotUsed, baudRate4800, IOPins, None, None)
+#pragma config(Sensor, dgtl1,  leftFrontWheelQE, sensorQuadEncoder)
+#pragma config(Sensor, dgtl3,  leftBackWheelQE, sensorQuadEncoder)
+#pragma config(Sensor, dgtl5,  rightFrontWheelQE, sensorQuadEncoder)
+#pragma config(Sensor, dgtl7,  rightBackWheelQE, sensorQuadEncoder)
+#pragma config(Motor,  port2,           leftFrontRightDrive, tmotorVex393_MC29, openLoop, driveLeft)
+#pragma config(Motor,  port3,           leftFrontLeftDrive, tmotorVex393_MC29, openLoop, driveLeft)
+#pragma config(Motor,  port4,           leftBackRightDrive, tmotorVex393_MC29, openLoop, driveLeft)
+#pragma config(Motor,  port5,           leftBackLeftDrive, tmotorVex393_MC29, openLoop, driveLeft)
+#pragma config(Motor,  port6,           rightFrontRightDrive, tmotorVex393_MC29, openLoop, driveRight)
+#pragma config(Motor,  port7,           rightFrontLeftDrive, tmotorVex393_MC29, openLoop, driveRight)
+#pragma config(Motor,  port8,           rightBackRightDrive, tmotorVex393_MC29, openLoop, driveRight)
+#pragma config(Motor,  port9,           rightBackLeftDrive, tmotorVex393_MC29, openLoop, driveRight)
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*        Description: Competition template for VEX EDR                      */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
+
+#pragma platform(VEX2)
+#pragma competitionControl(Competition)
+#include "Vex_Competition_Includes.c"
+
+#define MAX_DRIVE_SPEED 127
+#define MIN_DRIVE_SPEED (-127)
+
+int leftFrontDrive;
+int leftBackDrive;
+int rightFrontDrive;
+int rightBackDrive;
+
+bool lifting = false;
+
+/*---------------------------------------------------------------------------*/
+/*                          Pre-Autonomous Functions                         */
+/*                                                                           */
+/*  You may want to perform some actions before the competition starts.      */
+/*  Do them in the following function.  You must return from this function   */
+/*  or the autonomous and usercontrol tasks will not be started.  This       */
+/*  function is only called once after the cortex has been powered on and    */
+/*  not every time that the robot is disabled.                               */
+/*---------------------------------------------------------------------------*/
+
+void pre_auton()
+{
+  bStopTasksBetweenModes = true;
+}
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              Autonomous Task                              */
+/*                                                                           */
+/*  This task is used to control your robot during the autonomous phase of   */
+/*  a VEX Competition.                                                       */
+/*                                                                           */
+/*  You must modify the code to add your own robot specific commands here.   */
+/*---------------------------------------------------------------------------*/
+
+task autonomous()
+{
+  AutonomousCodePlaceholderForTesting();	
+}
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              User Control Task                            */
+/*                                                                           */
+/*  This task is used to control your robot during the user control phase of */
+/*  a VEX Competition.                                                       */
+/*                                                                           */
+/*  You must modify the code to add your own robot specific commands here.   */
+/*---------------------------------------------------------------------------*/
+
+task usercontrol(){
+  while (true){
+  	
+  	leftFrontDrive = (vexRT[Ch3] + vexRT[Ch4] +vexRT[Ch4]);
+  	rightFrontDrive = (vexRT[Ch3] - vexRT[Ch4] - vexRT[Ch4]);
+  	leftBackDrive = (vexRT[Ch3] - vexRT[Ch4] + vexRT[Ch4]);
+  	rightBackDrive = (vexRT[Ch3] + vexRT[Ch4] - vexRT[Ch4]);
+  	
+  	if(leftFrontDrive > MAX_DRIVE_SPEED) leftFrontDrive = MAX_DRIVE_SPEED;
+		if(leftFrontDrive < MIN_DRIVE_SPEED) leftFrontDrive = MIN_DRIVE_SPEED;
+		if(rightFrontDrive > MAX_DRIVE_SPEED) rightFrontDrive = MAX_DRIVE_SPEED;
+		if(rightFrontDrive < MIN_DRIVE_SPEED) rightFrontDrive = MIN_DRIVE_SPEED;
+		if(leftBackDrive > MAX_DRIVE_SPEED) leftBackDrive = MAX_DRIVE_SPEED;
+		if(leftBackDrive < MIN_DRIVE_SPEED) leftBackDrive = MIN_DRIVE_SPEED;
+		if(rightBackDrive > MAX_DRIVE_SPEED) rightBackDrive = MAX_DRIVE_SPEED;
+		if(rightBackDrive < MIN_DRIVE_SPEED) rightBackDrive = MIN_DRIVE_SPEED;
+  
+    while(lifting == false){
+ 	} 	
+  }
+}
